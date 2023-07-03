@@ -28,7 +28,9 @@ dfPath, signalsList, backgroundsList = ReadConfig(tag, analysis, signal) ### rem
 inputDir = dfPath + analysis + '/' + channel + '/' + preselectionCuts + '/' + signal + '/' + background
 #inputDir = dfPath + analysis + '/' + channel + '/' + preselectionCuts + '/' + 'ggFandVBF/' + signal + '/' + background
 fileCommonName = tag + '_' + analysis + '_' + channel + '_' + preselectionCuts + '_' + signal + '_' + background
-cprint('Loading' + inputDir + '/MixData_' + fileCommonName + '.pkl', 'green')
+cprint('Loading ' + inputDir + '/MixData_' + fileCommonName + '.pkl', 'green')
+#quit()
+
 data = pd.read_pickle(inputDir + '/MixData_' + fileCommonName + '.pkl') 
 
 ### If not already existing, creating output directory
