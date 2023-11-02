@@ -1,3 +1,11 @@
+def PredictionAndAUC(X, Y):
+    y_pred = model.predict(X)
+    fpr, tpr, thresholds = roc_curve(Y, y_pred)
+    roc_auc = auc(fpr, tpr)
+    return roc_auc
+
+
+
 from Functions import *
 from keras.utils.vis_utils import plot_model
 #import eli5
@@ -42,7 +50,6 @@ if 'WZ' in signalLabel:
 #ntuplePath, dfPath, InputFeatures = ReadConfig(tag, analysis, signal, configFile)
 ntuplePath, dfPath, InputFeatures = ReadConfig(tag, analysis, signal, preselectionCuts)
 cprint('Input features will be: '+str(InputFeatures),'green')
-quit()
 
 ### Input directory 
 #inputDir = dfPath + analysis + '/' + channel + '/' + preselectionCuts + '/ggFVBF' + '/' + signal + '/' + background + '/'# + 'tmp/' # + '_fullStat/'
@@ -56,11 +63,8 @@ outputFileCommonName = NN + '_' + analysis + '_' + channel + '_' + preselectionC
 #outputDir = inputDir + NN + '_trainSet' + str(trainSet)#0'# + '_3'# + '/withDNNscore'# + '/test1'# + '/3layers'#'/ggFsameStatAsVBF'# + '/withDNNscore' #'/DNNScore_Z'# + '/' + preselectionCuts # + '_halfStat'
 #outputDir = inputDir + NN + '_2layers48nodesSwish_mptetaphi/withoutLowWeights'
 configFile='Configuration_r33-24.ini'
-if 'mptetaphi' in configFile:
-    outtt = 'mptetaphi'
-else:
-    outtt = 'mptetaDPhi'
-outputDir = inputDir + NN + '_2layers48nodesSwish/' + outtt + '/loop'
+outtt='MELAvar/'
+outputDir = inputDir + NN + '_2layers48nodesSwish/' + outtt 
 #outputDir = inputDir + NN + '_2layers48nodesSwish_' + outtt + '/DeltaPhi'
 #outputDir = inputDir + NN + '_3layers48nodesRelu_deltaphi'
 #outputDir = inputDir + NN + 'hpOptimization'
@@ -68,6 +72,9 @@ cprint('Output directory: ' + outputDir + checkCreateDir(outputDir), 'green')
 cprint('Input files directory: ' + inputDir, 'green')
 
 logFileName = outputDir + '/logFile_' + outputFileCommonName + '.txt'
+cprint('logFileName = '+logFileName, 'green')
+#quit()
+
 logFile = open(logFileName, 'w')
 logInfo = ''
 logString = WriteLogFile(tag, ntuplePath, InputFeatures, inputDir, doHpOptimization, doTrain, doTest, validationFraction, batchSize)#, patienceValue)
@@ -217,12 +224,6 @@ for iL in range(loop):
     if doFeaturesRanking:
         deltasDict = {}
 
-    def PredictionAndAUC(X, Y):
-        y_pred = model.predict(X)
-        fpr, tpr, thresholds = roc_curve(Y, y_pred)
-        roc_auc = auc(fpr, tpr)
-        return roc_auc
-        
     ### Dividing signal from background
     data_test_signal = data_test[data_test['isSignal'] == 1]
     data_test_bkg = data_test[data_test['isSignal'] != 1]
@@ -242,8 +243,8 @@ for iL in range(loop):
 
     for unscaledMass in testMass:
 
-        #if unscaledMass != 1000:# and unscaledMass != 600:
-        #    continue
+        if unscaledMass != 1000 and unscaledMass != 600 and unscaledMass != 1500:
+            continue
 
         ### Checking whether there are test events with the selected mass
         if unscaledMass not in unscaledTestMassPointsList:

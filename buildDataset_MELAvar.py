@@ -36,8 +36,12 @@ localPath=dfPath
 tmpOutputDir = localPath + analysis + '/' + channel + '/' + preselectionCuts# + '/ggFandVBF'# + '/ggFVBF'
 print(format('First output directory (for selected events, organised by process): ' + tmpOutputDir), checkCreateDir(tmpOutputDir))
 tmpFileCommonName = tag + '_' + analysis + '_' + channel + '_' + preselectionCuts
+#tmpFileCommonName = tag + '_' + analysis + '_' + channel + '_MELAvar'
 
+# for first production of MELAvar
 tmpOutputDir1 = localPath + analysis + '/' + channel + '/MELAvar'
+# for second production of MELAvar
+#tmpOutputDir1 = localPath + analysis + '/' + channel + '/MELAvar1'
 outputDir = tmpOutputDir1 + '/' + signal + '/' + background
 print(format('Second output directory (df, mixing signal & bkg, input for training & test): ' + outputDir), checkCreateDir(outputDir))
 fileCommonName = tmpFileCommonName + '_' + signal + '_' + background
@@ -242,7 +246,10 @@ for origin in inputOrigins:
         logFile.write('\n--- Number of events in region ' + passVar + ': ' + "{:#.8g}".format(dataSetSingleRegion.shape[0])+' / '+ "{:#.8g}".format(listOfcounters[i]) + ' (raw), savedFraction= '+ "{:#.8g}".format(savedFraction) + ' ---  ' + "{:#.8g}".format(sum(dataSetSingleRegion['weight']))+ ' / '+ "{:#.8g}".format(listOfwcounters[i])+ ' (with MC weights) savedFraction= '+ "{:#.8g}".format(savedFractionW))
         i=i+1
 
-        
+
+
+tmpFileCommonName = tag + '_' + analysis + '_' + channel + '_MELAvar'
+fileCommonName = tmpFileCommonName + '_' + signal + '_' + background
 ### Saving the combined dataframe
 outputFileName = '/MixData_' + fileCommonName + '.pkl'
 dataFrame.to_pickle(outputDir + outputFileName)
