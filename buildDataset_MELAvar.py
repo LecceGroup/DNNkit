@@ -38,7 +38,10 @@ print(format('First output directory (for selected events, organised by process)
 tmpFileCommonName = tag + '_' + analysis + '_' + channel + '_' + preselectionCuts
 #tmpFileCommonName = tag + '_' + analysis + '_' + channel + '_MELAvar'
 
+# for first production of MELAvar
 tmpOutputDir1 = localPath + analysis + '/' + channel + '/MELAvar'
+# for second production of MELAvar
+#tmpOutputDir1 = localPath + analysis + '/' + channel + '/MELAvar1'
 outputDir = tmpOutputDir1 + '/' + signal + '/' + background
 print(format('Second output directory (df, mixing signal & bkg, input for training & test): ' + outputDir), checkCreateDir(outputDir))
 fileCommonName = tmpFileCommonName + '_' + signal + '_' + background

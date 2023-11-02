@@ -4,6 +4,7 @@ from ROOT import TLorentzVector, TVector3
 import numpy as np
 import pandas as pd
 import time
+import math
 
 '''
 def computeDerivedMELAVariables(variablesToDerive, dataFrame, signal, analysis):
@@ -175,6 +176,17 @@ def getMELAvar( vl1, vl2, vj1, vj2 ): # arguments are TLorentzVector
     #phi, phi1
     phi  = ( vl.Dot( n1p.Cross( n2p ) )  / abs( vl.Dot( n1p.Cross( n2p  ) ) ) * acos( -n1p.Dot( n2p ) ) )
     phi1 = ( vl.Dot( n1p.Cross( nscp ) ) / abs( vl.Dot( n1p.Cross( nscp ) ) ) * acos( n1p.Dot( nscp ) ) )
+
+    if phi>math.pi:
+        phi = phi - 2.*math.pi
+    if phi<math.pi:
+        phi = phi + 2.*math.pi
+        
+    if phi1>math.pi:
+        phi1 = phi1 - 2.*math.pi
+    if phi1<math.pi:
+        phi1 = phi1 + 2.*math.pi
+
     #print("the first angle  Phi  is :" +str(phi))
     #print("the second angle Phi1 is :" +str(phi1))
 
